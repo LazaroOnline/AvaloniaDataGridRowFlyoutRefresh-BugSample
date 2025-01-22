@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="clr-namespace:AvaloniaDataGridRowFlyoutRefresh.ViewModels"
+			 xmlns:model="using:AvaloniaDataGridRowFlyoutRefresh.Models"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="AvaloniaDataGridRowFlyoutRefresh.Views.MainView"
+			 x:DataType="vm:MainViewModel">
+	<Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
+
+	<Grid>
+		<StackPanel >
+			<DataGrid ItemsSource="{Binding UserList}" AutoGenerateColumns="False"
+			MinHeight="180"
+			MinWidth="180"
+					  >
+				<DataGrid.Columns>
+					<DataGridTemplateColumn Header="Actions">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate DataType="model:User">
+								<SplitButton Content="Link" Command="{Binding OpenMyMainUrl}">
+									<SplitButton.Flyout>
+										<MenuFlyout ItemsSource="{Binding UserLinks}">
+											<MenuFlyout.ItemContainerTheme>
+												<ControlTheme TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:DataType="model:Link">
+													<Setter Property="Header" Value="{Binding LinkName}"/>
+													<Setter Property="Command" Value="{Binding OpenUrl}"/>
+												</ControlTheme>
+											</MenuFlyout.ItemContainerTheme>
+										</MenuFlyout>
+									</SplitButton.Flyout>
+								</SplitButton>
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+					<DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+					<DataGridTextColumn Header="FullName" Binding="{Binding FullName}" />
+				</DataGrid.Columns>
+			</DataGrid>
+			<Button Content="Change user rows" Command="{Binding ChangeUsers}" />
+		</StackPanel>
+	</Grid>
+
+</UserControl>
