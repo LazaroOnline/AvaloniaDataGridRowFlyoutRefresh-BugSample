@@ -12,11 +12,19 @@
 	</Design.DataContext>
 
 	<Grid>
-		<StackPanel >
-			<DataGrid ItemsSource="{Binding UserList}" AutoGenerateColumns="False"
-			MinHeight="180"
-			MinWidth="180"
-					  >
+		<StackPanel>
+			<TextBlock FontSize="18">
+				Bug example for DataGrid with MenuFlyout:
+			</TextBlock>
+
+			<TextBlock>
+				How to reproduce:
+				<LineBreak/>Expand the "Link" Split Button, initially it is OK showing Peter's List of links.
+				<LineBreak/>Then press the "Change user" button to change to Bruce's list of links.
+				<LineBreak/>Now expand the "Link" Split Button again, it is still showing Peter's List of links!
+				<LineBreak/>
+			</TextBlock>
+			<DataGrid ItemsSource="{Binding UserList}" Margin="10">
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Actions">
 						<DataGridTemplateColumn.CellTemplate>
@@ -40,7 +48,7 @@
 					<DataGridTextColumn Header="FullName" Binding="{Binding FullName}" />
 				</DataGrid.Columns>
 			</DataGrid>
-			<Button Content="Change user rows" Command="{Binding ChangeUsers}" />
+			<Button Content="Change user" Command="{Binding ChangeUsers}" Margin="10"/>
 		</StackPanel>
 	</Grid>
 
