@@ -24,13 +24,34 @@
 				<LineBreak/>Now expand the "Link" Split Button again, it is still showing Peter's List of links!
 				<LineBreak/>
 			</TextBlock>
+
 			<DataGrid ItemsSource="{Binding UserList}" Margin="10">
+
+				
+				<DataGrid.Styles>
+					<Style Selector="DataGridRow">
+						<Setter Property="ContextMenu">
+							<ContextMenu x:DataType="model:User" ItemsSource="{Binding UserLinks}">
+								<ContextMenu.ItemTemplate>
+									<DataTemplate DataType="model:Link">
+										<!-- This MenuItem's Command is not working, it does compile the binding but then it appears greyed-out! -->
+										<MenuItem Header="{Binding LinkName}" Command="{Binding OpenUrl}" CommandParameter="{Binding Url}"/>
+									</DataTemplate>
+								</ContextMenu.ItemTemplate>
+							</ContextMenu>
+						</Setter>
+					</Style>
+				</DataGrid.Styles>
+
 				<DataGrid.Columns>
 					<DataGridTemplateColumn Header="Actions">
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate DataType="model:User">
 								<SplitButton Content="Link" Command="{Binding OpenMyMainUrl}">
 									<SplitButton.Flyout>
+
+										<!--
+										The version that has a bug:
 										<MenuFlyout ItemsSource="{Binding UserLinks}">
 											<MenuFlyout.ItemContainerTheme>
 												<ControlTheme TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}" x:DataType="model:Link">
@@ -39,6 +60,76 @@
 												</ControlTheme>
 											</MenuFlyout.ItemContainerTheme>
 										</MenuFlyout>
+										-->
+
+										<!-- Version to try to find a work-around the bug:
+										
+										Using ItemsRepeater to create the MenuFlyout items, it DOES refresh (yay!)
+										However the result is not correct because the MenuItems are not direct descendants of the MenuFlyout, 
+										making all menu items look like a weird single clickable MenuItem.
+										
+										https://docs.avaloniaui.net/docs/reference/controls/itemsrepeater
+										-->
+
+										<!--
+										This does refresh but shows the MenuItems grouped as just one:
+										<MenuFlyout>
+											<ItemsRepeater ItemsSource="{Binding UserLinks}" >
+												<ItemsRepeater.Layout>
+													<StackLayout Spacing="0" Orientation="Vertical" />
+												</ItemsRepeater.Layout>
+												<ItemsRepeater.ItemTemplate>
+													<DataTemplate>
+														<MenuItem Header="{Binding LinkName}"/>
+													</DataTemplate>
+												</ItemsRepeater.ItemTemplate>
+											</ItemsRepeater>
+										</MenuFlyout>
+										-->
+
+
+										<!--
+											This version is simpler way to reproduce the error:
+											<MenuFlyout ItemsSource="{Binding UserLinks}">
+												<MenuFlyout.ItemTemplate>
+													<DataTemplate DataType="model:Link">
+														<MenuItem Header="{Binding LinkName}"/>
+													</DataTemplate>
+												</MenuFlyout.ItemTemplate>
+											</MenuFlyout>
+										-->
+
+
+										<MenuFlyout ItemsSource="{Binding UserLinks}">
+											<MenuFlyout.ItemTemplate>
+												<DataTemplate DataType="model:Link">
+													<MenuItem Header="{Binding LinkName}"/>
+												</DataTemplate>
+											</MenuFlyout.ItemTemplate>
+										</MenuFlyout>
+
+										<!--
+										This version doesnt compile:
+										<MenuFlyout>
+											<MenuFlyout.ItemTemplate>
+
+												<ItemsRepeater ItemsSource="{Binding UserLinks}" >
+													<ItemsRepeater.ItemTemplate>
+														<DataTemplate>
+															<MenuItem Header="{Binding LinkName}"/>
+														</DataTemplate>
+													</ItemsRepeater.ItemTemplate>
+												</ItemsRepeater>
+												
+											</MenuFlyout.ItemTemplate>
+										</MenuFlyout>
+										-->
+
+
+										<!--
+										<MenuItem Header="Un-believavolley"/>
+										-->
+
 									</SplitButton.Flyout>
 								</SplitButton>
 							</DataTemplate>

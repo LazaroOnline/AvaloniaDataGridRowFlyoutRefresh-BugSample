@@ -27,4 +27,9 @@ public class MainViewModel : ViewModelBase
         }
     }
 
+    public void OpenUrlVM()
+    {
+        Debug.WriteLine($"OpenUrl from VM");
+    }
+
 }
