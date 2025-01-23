@@ -20,7 +20,7 @@
 			<TextBlock>
 				How to reproduce:
 				<LineBreak/>Right click on the table's row, the context menu items are greyed out!
-				<LineBreak/>*Notice that BuiltInComInteropSupport is set to true and it compiles, but during runtime it does not work.
+				<LineBreak/>*Notice that AvaloniaUseCompiledBindingsByDefault is set to true and it compiles, but during runtime it does not work.
 			</TextBlock>
 
 			<DataGrid ItemsSource="{Binding UserList}" Margin="10">
