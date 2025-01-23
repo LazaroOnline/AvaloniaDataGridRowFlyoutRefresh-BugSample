@@ -15,18 +15,6 @@ public class MainViewModel : ViewModelBase
         ] }
     ];
 
-    public void ChangeUsers()
-    {
-        UserList.Clear();
-        //if (UserList.FirstOrDefault()?.Name == "Peter")
-        {
-            UserList.Add(new() { Name = "Bruce", FullName = "Bruce Wayne", UserLinks = [
-                    new Link() { LinkName = "Bruce Link 1" }
-                ]
-            });
-        }
-    }
-
     public void OpenUrlVM()
     {
         Debug.WriteLine($"OpenUrl from VM");
